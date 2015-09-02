@@ -11,7 +11,7 @@
 
 		//Calculate the exponential moving average of the abs values from the gyro
 		var ema = this.armBusyData +
-			ema_alpha * (Math.abs(gyro.x) + Math.abs(gyro.y) + Math.abs(gyro.z) - this.armBusyData);
+			Myo.plugins.busyarm.ema_alpha * (Math.abs(gyro.x) + Math.abs(gyro.y) + Math.abs(gyro.z) - this.armBusyData);
 
 		//If that's over the specific threshold, the arm is considered busy
 		var isBusy = ema > Myo.plugins.busyarm.threshold;

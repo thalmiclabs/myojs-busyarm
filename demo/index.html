@@ -6,7 +6,6 @@
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
 
 		<script src='myo.js'></script>
-		<script src='flex.myo.js'></script>
 		<script src='../busyarm.myo.js'></script>
 
 		<link href="diagnosticsStyle/base.css" rel="stylesheet">
@@ -14,6 +13,47 @@
 		<script src='diagnosticsStyle/graph.js'></script>
 
 		<style>
+
+			.armBusyWarning{
+				width : 500px;
+				text-align: center;
+				margin-bottom: 30px;
+				opacity : 0.3;
+			}
+			.armBusyWarning .text{
+				color : #c14b2a;
+				text-transform: uppercase;
+				font-size: 3em;
+				visibility: hidden;
+			}
+
+			.armBusyWarning.show{
+				opacity : 1;
+			}
+			.armBusyWarning.show .text{
+				visibility: visible;
+			}
+
+			svg{
+				width : 200px;
+			}
+			svg path{
+				stroke : #c14b2a;
+				fill : #c14b2a;
+			}
+			.unbusy_fist{
+				margin-top: 50px;
+				width : 500px;
+				text-align: center;
+			}
+			.unbusy_fist img{
+				opacity :0.3;
+				width : 120px;
+
+			}
+			.unbusy_fist.show img{
+				opacity :1;
+			}
 
 		</style>
 	</head>
@@ -24,19 +64,57 @@
 			<a href='https://github.com/thalmiclabs/myojs-busyarm'><small>Project here</small></a>
 		</h1>
 		<p>
-
-
+			busyarm.myo.js emits events when the arm is considered busy. This is useful to filtering gestures or other events, for example while the user is hand talking.
 		</p>
 
+		<div class='armBusyWarning'>
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve"><g><path fill="#000000" d="M45.59,15.789l-34.184,61.57C8.562,82.543,9.77,87.5,17.457,87.5h65.082c7.705,0,8.896-4.957,6.051-10.141   L53.699,15.953c-0.707-1.383-1.734-2.911-3.914-2.891C47.467,13.104,46.316,14.406,45.59,15.789z M45.5,35.5h8v28h-8V35.5z    M45.5,69.5h8v8h-8V69.5z"/></g></svg>
 
+			<div class='text'>Arm Busy!</div>
+		</div>
 
+		<div class='busyGraph graph'></div>
+
+		<div class='unbusy_fist'>
+			<img  src='diagnosticsStyle/img/fist.png' />
+			<p>
+				The above icon will only light up if you do a fist while the arm in not busy
+			</p>
+		</div>
 	</body>
 	<script>
 		Myo.connect();
 
-		Myo.on('arm_busy', function(){
+		Myo.plugins.busyarm.threshold = 120;
 
-			console.log('busy!');
+		var busyGraph = createGraph({
+			resolution : 100,
+			element : '.busyGraph',
+			initialData : {ema : 0, threshold : Myo.plugins.busyarm.threshold},
+			range : [0, 500]
+		});
+
+
+		Myo.on('gyroscope', function(){
+			busyGraph.add({
+				ema : this.armBusyData,
+				threshold : Myo.plugins.busyarm.threshold
+			});
+		});
+
+
+		Myo.on('arm_busy', function(){
+			$('.armBusyWarning').addClass('show');
+		});
+		Myo.on('arm_rest', function(){
+			$('.armBusyWarning').removeClass('show');
+		});
+
+		Myo.on('fist', function(){
+			if(!this.isArmBusy) $('.unbusy_fist').addClass('show');
 		})
+		Myo.on('fist_off', function(){
+			$('.unbusy_fist').removeClass('show');
+		});
 	</script>
 </html>
