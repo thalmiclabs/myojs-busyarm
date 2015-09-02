@@ -1,0 +1,26 @@
+{
+  "name": "myojs-busyarm",
+  "version": "0.0.0",
+  "description": "A plugin for myo.js that detects when the user's arm is busy",
+  "main": "busyarm.myo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thalmiclabs/myojs-busyarm.git"
+  },
+  "keywords": [
+    "myo",
+    "myo.js",
+    "busyarm",
+    "arm",
+    "busy"
+  ],
+  "author": "Scott Tolksdorf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thalmiclabs/myojs-busyarm/issues"
+  },
+  "homepage": "https://github.com/thalmiclabs/myojs-busyarm"
+}

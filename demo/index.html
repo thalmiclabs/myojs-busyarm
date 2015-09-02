@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+
+		<script src='myo.js'></script>
+		<script src='flex.myo.js'></script>
+		<script src='../busyarm.myo.js'></script>
+
+		<link href="diagnosticsStyle/base.css" rel="stylesheet">
+		<link rel="icon" href="diagnosticsStyle/img/favicon.ico" type="image/x-icon" />
+		<script src='diagnosticsStyle/graph.js'></script>
+
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<title>Busy Arm Demo - Myo.js</title>
+		<h1>
+			Busy Arm Demo for Myo.js
+			<a href='https://github.com/thalmiclabs/myojs-busyarm'><small>Project here</small></a>
+		</h1>
+		<p>
+
+
+		</p>
+
+
+
+	</body>
+	<script>
+		Myo.connect();
+
+		Myo.on('arm_busy', function(){
+
+			console.log('busy!');
+		})
+	</script>
+</html>
